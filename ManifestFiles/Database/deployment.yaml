@@ -1,0 +1,62 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  namespace: workshop
+  labels:
+    app: mongodb
+    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+
+  template: 
+    metadata:
+      name: database-pod
+      labels: 
+        app: mongodb
+        env: test 
+    spec:
+      containers: 
+      - name: mongodb
+        image: mongo:4.4.6
+
+        command:
+          - "numactl"
+          - "--interleave=all"
+          - "mongod"
+          - "--bind_ip"
+          - "0.0.0.0"
+
+        ports: 
+        - containerPort : 27017
+
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-sec
+                key: password
+
+
+        volumeMounts:
+        - name: mongodb-storage
+          mountPath: /data/mongodb 
+
+
+      volumes:
+      - name: mongodb-storage
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+
+
+
+
+
