@@ -7,26 +7,19 @@ The project involves deploying a Three-Tier Web Application using ReactJS, NodeJ
 
 [![](https://app.eraser.io/workspace/YW2RSs1i3JwonaT25oeg/preview?elements=iljAd0EwRpkBU_T-iMV7Tw&type=embed)](https://app.eraser.io/workspace/YW2RSs1i3JwonaT25oeg?elements=iljAd0EwRpkBU_T-iMV7Tw)
 
-## Application Code
+### Application Code
 The `Application-Code` directory contains the source code for the Three-Tier Web Application. Dive into this directory to explore the frontend and backend implementations.
 
-## Kubernetes Manifests-Files
-The `Kubernetes-Manifests-Files` directory holds Kubernetes manifests for deploying your application on AWS EKS. Understand and customize these files to suit your project needs.
+### Kubernetes Manifests-Files
+The `Kubernetes ManifestFiles` directory holds Kubernetes manifests for deploying your application on AWS EKS. Understand and customize these files to suit your project needs.
 
-
-📈 **The journey covered everything from setting up tools to deploying a Three-Tier app, ensuring data persistence, and implementing CI/CD pipelines.**
-
+## Initial Setup
 ### Step 1: IAM Configuration
 - Create a user `eks-admin` with `AdministratorAccess`.
 - Generate AWS Security Credentials: Access Key and Secret Access Key.
 
 ### Step 2: EC2 Setup
 - Launch an Ubuntu instance and do SSH into the instance from your local machine.
-  
-### Clone the Repositoty**
-```bash
-git clone <repository-URL>
-```
 
 ### Step 3: Install Docker
 ``` shell
@@ -44,9 +37,13 @@ unzip awscliv2.zip
 sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
 aws configure
 ```
+### Clone the Repositoty**
+```bash
+git clone <repository-URL>
+```
 
 ## Setup Frontend
-go inside frontand directory `/cd Application-Code/frontend` and create a `Dockerfile` using below code.
+go inside frontend directory `/cd Application-Code/frontend` and create a `Dockerfile` using below code.
 ```
 FROM node:14
 WORKDIR /app
@@ -78,7 +75,7 @@ docker build -t three-tier-backend .
 docker run -d -p 3500:3500 three-tier-backend:latest
 docker logs
 ```
-Now push all the images to Docker HUB one after one.
+Now push both the images to Docker HUB one after one.
 
 ## Kubernertes Configuration
 
@@ -110,29 +107,29 @@ kubectl get nodes
 kubectl create namespace workshop
 ```
 ### Create and run databse
-got inside `Kubernetes-Manifests-file/Database` and run below command
+got inside `ManifestFiles/database` and run below command
 ```
 kubectl apply -f .
 
 kubectl delete -f .
 ```
 ### Create and run backend
-got inside `Kubernetes-Manifests-file/Backend` and run below command
+got inside `ManifestFiles/backend` and run below command
 ```
 kubectl apply -f .
 
 kubectl delete -f .
-kubectl logs <podname> -n workshop          # database connection check
+kubectl logs <backend-podname> -n workshop          # database connection check
 ```
 ### Create and run frontend
-got inside `Kubernetes-Manifests-file/Frontend` and run below command
+got inside `ManifestFiles/frontend` and run below command
 ```
 kubectl apply -f .
 kubectl delete -f .
-kubectl get pods -n workshop
+kubectl get pods -n workshop                       # check all the pods status
 ```
 
-## Loadbalancer Setup with EKS
+## Loadbalancer Setup with EKS Cluster
 ### Step 1: IAM Service Account Setup
 
 **Download LB IAM policy**
