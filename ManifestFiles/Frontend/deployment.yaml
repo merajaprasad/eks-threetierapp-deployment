@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
       - name: frontend
-        image: merajaprasd/three-tier-frontend
+        image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/frontend
         imagePullPolicy: Always
         env:
           - name: REACT_APP_BACKEND_URL
@@ -32,30 +32,3 @@ spec:
     rollingUpdate:
       maxUnavailable: 25%
       maxSurge: 1
-
-
-        #       livenessProbe:
-        #   httpGet:
-        #     path: /health
-        #     port: 3000
-        #   initialDelaySeconds: 10
-        #   periodSeconds: 10
-        #   timeoutSeconds: 5
-        #   failureThreshold: 3
-        #   successThreshold: 1
-        # readinessProbe:
-        #   httpGet:
-        #     path: /ready
-        #     port: 3000
-        #   initialDelaySeconds: 10
-        #   periodSeconds: 10
-        #   timeoutSeconds: 5
-        #   failureThreshold: 3
-        #   successThreshold: 1
-
-
-
-
-## To ensure that the backend service is correctly responding by testing it from within the cluster by creating a Temporary POD.
-# kubectl run -it --rm --image=curlimages/curl test-pod -- curl -s http://backend-svc.workshop.svc.cluster.local:3500/health
-
