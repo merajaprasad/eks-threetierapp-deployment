@@ -19,7 +19,11 @@ spec:
     spec:
       containers: 
       - name: api
+<<<<<<< HEAD
         image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/backend:5
+=======
+        image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/backend:2
+>>>>>>> d745da01a2ef7effa253f6ed6705b4f574f4a23d
         imagePullPolicy: Always
         ports: 
         - containerPort : 3500
