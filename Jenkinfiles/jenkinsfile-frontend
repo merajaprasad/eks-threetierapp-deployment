@@ -51,6 +51,15 @@ pipeline {
             }
         }
 
+        stage('OWASP Dependency Check') {
+            steps {
+                dir('Application-Code/frontend') {
+                    dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DP-Check'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                }
+            }
+        }
+
         stage ('Docker Image Build') {
             steps {
                 script {
