@@ -17,6 +17,7 @@ spec:
         app: frontend
         env: test 
     spec:
+      serviceAccountName: default
       containers: 
       - name: frontend
         image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/frontend:3
@@ -26,6 +27,14 @@ spec:
             value: "http://challenge.merajaprasad.in/api/tasks"
         ports: 
         - containerPort : 3000
+        
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
 
   strategy:
     type: RollingUpdate
