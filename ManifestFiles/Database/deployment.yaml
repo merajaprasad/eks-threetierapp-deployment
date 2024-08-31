@@ -1,62 +1,54 @@
-apiVersion: apps/v1 
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
-  name: mongodb-deployment
+  name: mongodb
   namespace: workshop
   labels:
     app: mongodb
-    
 spec:
+  serviceName: "mongodb-headless"
   replicas: 1
   selector:
     matchLabels:
       app: mongodb
-
-  template: 
+  template:
     metadata:
-      name: database-pod
-      labels: 
+      labels:
         app: mongodb
-        env: test 
     spec:
-      containers: 
+      containers:
       - name: mongodb
         image: mongo:4.4.6
-
         command:
           - "numactl"
           - "--interleave=all"
           - "mongod"
           - "--bind_ip"
           - "0.0.0.0"
-
-        ports: 
-        - containerPort : 27017
-
+        ports:
+        - containerPort: 27017
+          name: mongodb
         env:
-          - name: MONGO_INITDB_ROOT_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: mongo-sec
-                key: username
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mongo-sec
-                key: password
-
-
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongo-sec
+              key: username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-sec
+              key: password
         volumeMounts:
-        - name: mongodb-storage
-          mountPath: /data/mongodb 
-
-
-      volumes:
-      - name: mongodb-storage
-        persistentVolumeClaim:
-          claimName: mongo-pvc
-
-
-
-
-
+        - name: mongodb-pvc
+          mountPath: /data/mongodb
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-pvc
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: mongo-pv
+      resources:
+        requests:
+          storage: 1Gi
+          
