@@ -5,10 +5,11 @@ metadata:
   namespace: workshop
   labels:
     app: mongodb
+    
 spec:
   selector:
     app: mongodb
   ports:
-  - port: 27017
-    name: mongodb
+  - name: mongodb
+    port: 27017
   clusterIP: None
