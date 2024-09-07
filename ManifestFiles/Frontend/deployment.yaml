@@ -20,7 +20,7 @@ spec:
       serviceAccountName: default
       containers: 
       - name: frontend
-        image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/frontend:3
+        image: 615299773556.dkr.ecr.us-east-1.amazonaws.com/frontend:4
         imagePullPolicy: Always
         env:
           - name: REACT_APP_BACKEND_URL
