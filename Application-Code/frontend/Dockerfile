@@ -19,9 +19,9 @@ FROM node:14-slim
 # Set the working directory in the final image
 WORKDIR /usr/src/app
 
-# Copy only the necessary files from the builder stage
+# Copy only the necessary files from the build stage
 COPY --from=build /usr/src/app .
 
-# Run the application
+# Run the Frontend application
 CMD [ "npm", "start" ]
 
