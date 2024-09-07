@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:14 as builder
+FROM node:14 as build
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -13,20 +13,14 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
-# Build the application (if applicable, e.g., for React or Angular)
-# RUN npm run build
-
-# Stage 2: Production Image
+# Stage 2: Final Image
 FROM node:14-slim
 
 # Set the working directory in the final image
 WORKDIR /usr/src/app
 
 # Copy only the necessary files from the builder stage
-COPY --from=builder /usr/src/app .
-
-# Expose the port that the app runs on
-EXPOSE 3000
+COPY --from=build /usr/src/app .
 
 # Run the application
 CMD [ "npm", "start" ]
