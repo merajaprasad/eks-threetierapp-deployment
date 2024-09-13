@@ -12,6 +12,12 @@ spec:
     matchLabels:
       app: api
 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
+
   template: 
     metadata:
       labels: 
@@ -53,9 +59,14 @@ spec:
           periodSeconds: 5
           successThreshold: 1
 
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - api
+            topologyKey: "kubernetes.io/hostname"
 
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
-      maxSurge: 1
