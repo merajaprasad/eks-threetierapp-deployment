@@ -24,9 +24,9 @@ spec:
         image: mongo:4.4.6
 
         command:
-          - "numactl"
-          - "--interleave=all"
-          - "mongod"
+          - "numactl"            # Linux command-line utility in NUMA architecture for memory management
+          - "--interleave=all"   # used with numactl in NUMA architecture
+          - "mongod"             # initialize mongodb command
           - "--bind_ip"
           - "0.0.0.0"
 
@@ -55,8 +55,4 @@ spec:
       - name: mongodb-storage
         persistentVolumeClaim:
           claimName: mongo-pvc
-
-
-
-
 
